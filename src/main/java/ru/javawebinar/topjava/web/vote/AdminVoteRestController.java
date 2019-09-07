@@ -35,42 +35,15 @@ public class AdminVoteRestController {
         return voteService.getRestaurantRating(LocalDate.parse(date), restaurantName);
     }
 
-    @GetMapping("/todayRating")
-    public Integer getTodayRating(@RequestParam String restaurantName) {
-        log.info("getTodayRating for restaurant {}", restaurantName);
-        return voteService.getTodayRating(restaurantName);
-    }
-
     @GetMapping
     public List<Vote> getAllRestaurantRating(@RequestParam String restaurantName) {
         log.info("getAllRestaurantRating for restaurant {}", restaurantName);
         return voteService.getAllRestaurantRating(restaurantName);
     }
 
-    @GetMapping("byUser")
-    public List<Vote> getHistoryVoteByUser() {
-        int userId = SecurityUtil.authUserId();
-        log.info("getHistoryVoteByUser for user {}", userId);
-        return voteService.getHistoryVoteByUser(userId);
-    }
-
     @GetMapping("/ratingGroupByDate")
     public List<VoteTo> getAllRestaurantRatingGroupByDate(@RequestParam String restaurantName) {
         log.info("getAllRestaurantRatingGroupByDate for restaurant {}", restaurantName);
         return voteService.getAllRestaurantRatingGroupByDate(restaurantName);
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> toVote(@Validated(View.Web.class) @RequestBody Vote vote) {
-        ValidationUtil.checkTime();
-        ValidationUtil.checkNew(vote);
-        log.info("create {}", vote);
-        Vote created = voteService.toVote(vote);
-
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-
-        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 }

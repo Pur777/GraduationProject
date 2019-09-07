@@ -21,7 +21,7 @@ public class LunchMenu extends AbstractBaseEntity{
     @OrderBy("id")
     private List<Dish> dishes;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull(groups = View.Persist.class)

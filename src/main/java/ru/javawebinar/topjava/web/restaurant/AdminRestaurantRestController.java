@@ -28,24 +28,6 @@ public class AdminRestaurantRestController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("/{id}")
-    public Restaurant get(@PathVariable int id) {
-        log.info("get restaurant {}", id);
-        return restaurantService.get(id);
-    }
-
-    @GetMapping
-    public List<Restaurant> getAll() {
-        log.info("getAll");
-        return restaurantService.getAll();
-    }
-
-    @GetMapping("/by")
-    public Restaurant getByName(@RequestParam String name) {
-        log.info("getByName {}", name);
-        return restaurantService.getByName(name);
-    }
-
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {

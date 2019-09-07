@@ -28,57 +28,27 @@ public class AdminDishRestControllerTest extends AbstractControllerTest {
     private DishService dishService;
 
     @Test
-    void get() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + DISH_ID_1)
-                .param("menuId", String.valueOf(LUNCH_MENU_ID_1))
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result -> assertMatchDish(TestUtil.readFromJsonMvcResult(result, Dish.class), DISH_1));
-    }
-
-    @Test
-    void getUnauth() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + DISH_ID_1)
-                .param("menuId", String.valueOf(LUNCH_MENU_ID_1)))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void getForbidden() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + DISH_ID_1)
-                .param("menuId", String.valueOf(LUNCH_MENU_ID_1))
-                .with(userHttpBasic(USER_1)))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void getNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + 1)
-                .param("menuId", String.valueOf(LUNCH_MENU_ID_1))
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    void getAll() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL)
-                .param("menuId", String.valueOf(LUNCH_MENU_ID_1))
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJsonDish(DISH_1, DISH_2));
-    }
-
-    @Test
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL + DISH_ID_2)
                 .param("menuId", String.valueOf(LUNCH_MENU_ID_1))
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isNoContent());
         assertMatchDish(dishService.getAll(LUNCH_MENU_ID_1), DISH_1);
+    }
+
+    @Test
+    void deleteUnauth() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL + DISH_ID_2)
+                .param("menuId", String.valueOf(LUNCH_MENU_ID_1)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void deleteForbidden() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL + DISH_ID_2)
+                .param("menuId", String.valueOf(LUNCH_MENU_ID_1))
+                .with(userHttpBasic(USER_1)))
+                .andExpect(status().isForbidden());
     }
 
     @Test

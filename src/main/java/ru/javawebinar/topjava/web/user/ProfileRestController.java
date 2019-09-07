@@ -74,9 +74,4 @@ public class ProfileRestController {
         assureIdConsistent(user, id);
         userService.update(user);
     }
-
-    @GetMapping(value = "/text")
-    public String testUTF() {
-        return "Русский текст";
-    }
 }

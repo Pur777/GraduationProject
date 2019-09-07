@@ -27,18 +27,6 @@ public class AdminDishRestController {
     @Autowired
     private DishService dishService;
 
-    @GetMapping("/{dishId}")
-    public Dish get(@PathVariable int dishId, @RequestParam int menuId) {
-        log.info("get dish {} for menu {}", dishId, menuId);
-        return dishService.get(menuId, dishId);
-    }
-
-    @GetMapping
-    public List<Dish> getAll(@RequestParam int menuId) {
-        log.info("getAll for dish {}", menuId);
-        return dishService.getAll(menuId);
-    }
-
     @DeleteMapping("/{dishId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int dishId, @RequestParam int menuId) {

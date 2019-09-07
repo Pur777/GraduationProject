@@ -32,61 +32,24 @@ public class AdminRestaurantRestControllerTest extends AbstractControllerTest {
     private RestaurantService restaurantService;
 
     @Test
-    void get() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_ID_1)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result -> assertMatch(TestUtil.readFromJsonMvcResult(result, Restaurant.class), RESTAURANT_1));
-    }
-
-    @Test
-    void getByName() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "by?name=" + RESTAURANT_1.getName())
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result -> assertMatch(TestUtil.readFromJsonMvcResult(result, Restaurant.class), RESTAURANT_1));
-    }
-
-    @Test
-    void getUnauth() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_ID_1))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void getForbidden() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_ID_1)
-                .with(userHttpBasic(USER_1)))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void getNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + 1)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    void getAll() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(RESTAURANT_4, RESTAURANT_3, RESTAURANT_1, RESTAURANT_2));
-    }
-
-    @Test
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT_ID_4)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isNoContent());
         assertMatch(restaurantService.getAll(), RESTAURANT_3, RESTAURANT_1, RESTAURANT_2);
+    }
+
+    @Test
+    void deleteUnauth() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT_ID_4))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void deleteForbidden() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT_ID_4)
+                .with(userHttpBasic(USER_1)))
+                .andExpect(status().isForbidden());
     }
 
     @Test

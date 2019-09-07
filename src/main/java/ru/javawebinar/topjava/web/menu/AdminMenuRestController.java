@@ -46,12 +46,6 @@ public class AdminMenuRestController {
         return menuService.getByDate(restaurantId, LocalDate.parse(date));
     }
 
-    @GetMapping("/last")
-    public LunchMenu getLastMenu(@RequestParam int restaurantId) {
-        log.info("getLastMenu for restaurant {}", restaurantId);
-        return menuService.getLastMenu(restaurantId);
-    }
-
     @DeleteMapping("/{menuId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int menuId, @RequestParam int restaurantId) {

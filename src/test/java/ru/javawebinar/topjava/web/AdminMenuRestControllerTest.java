@@ -92,18 +92,6 @@ public class AdminMenuRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getLastMenu() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "last")
-                .param("restaurantId", String.valueOf(RESTAURANT_ID_1))
-                .param("date", LUNCH_MENU_2.getDate().toString())
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result -> assertMatch(TestUtil.readFromJsonMvcResult(result, LunchMenu.class), LUNCH_MENU_5));
-    }
-
-    @Test
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL + LUNCH_MENU_ID_1)
                 .param("restaurantId", String.valueOf(RESTAURANT_ID_1))
