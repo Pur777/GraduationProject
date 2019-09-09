@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.SafeHtml;
 import ru.javawebinar.topjava.View;
 
@@ -20,6 +21,7 @@ public class Restaurant extends AbstractBaseEntity{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("dateTime DESC")
+    @JsonIgnore
     private List<LunchMenu> menu;
 
     public Restaurant() {

@@ -33,7 +33,7 @@ public class ProfileVoteRestController {
         return voteService.getTodayRating(restaurantName);
     }
 
-    @GetMapping("byUser")
+    @GetMapping
     public List<Vote> getHistoryVoteByUser() {
         int userId = SecurityUtil.authUserId();
         log.info("getHistoryVoteByUser for user {}", userId);

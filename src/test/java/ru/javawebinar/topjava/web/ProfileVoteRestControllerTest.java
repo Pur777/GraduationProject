@@ -53,7 +53,7 @@ public class ProfileVoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getHistoryVoteByUser() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "byUser")
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(USER_2)))
                 .andExpect(status().isOk())
                 .andDo(print())

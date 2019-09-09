@@ -38,6 +38,9 @@ public class JsonUtil {
     }
 
     public static <T> String writeAdditionProps(T obj, String addName, Object addValue) {
+        if (addValue == null) {
+            addValue = "";
+        }
         return writeAdditionProps(obj, Map.of(addName, addValue));
     }
 

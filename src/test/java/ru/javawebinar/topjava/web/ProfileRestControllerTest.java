@@ -51,7 +51,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
 
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(created)))
+                .content(jsonWithPassword(created, created.getPassword())))
                 .andDo(print())
                 .andExpect(status().isCreated());
         User returned = readFromJson(action, User.class);
@@ -65,9 +65,10 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     void update() throws Exception {
         User updated = new User(null, "newName", "newemail@ya.ru", "newPassword", Role.ROLE_USER);
-        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER_1))
-                .content(JsonUtil.writeValue(updated)))
+                .content(jsonWithPassword(updated, updated.getPassword())))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
@@ -78,11 +79,11 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void updateInvalid() throws Exception {
-        User updatedTo = new User(null, null, "password", null, Role.ROLE_USER);
+        User updated = new User(null, null, "password", null, Role.ROLE_USER);
 
         mockMvc.perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER_1))
-                .content(JsonUtil.writeValue(updatedTo)))
+                .content(jsonWithPassword(updated, null)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(VALIDATION_ERROR))
@@ -92,11 +93,11 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     @Transactional(propagation = Propagation.NEVER)
     void updateDuplicate() throws Exception {
-        User updatedTo = new User(null, "newName", "seconduser@mail.ru", "newPassword", Role.ROLE_USER);
+        User updated = new User(null, "newName", "seconduser@mail.ru", "newPassword", Role.ROLE_USER);
 
         mockMvc.perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER_1))
-                .content(JsonUtil.writeValue(updatedTo)))
+                .content(jsonWithPassword(updated, updated.getPassword())))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(VALIDATION_ERROR))
                 .andExpect(detailMessage(EXCEPTION_DUPLICATE_EMAIL))

@@ -31,17 +31,6 @@ public class AdminVoteRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAllRestaurantRating() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL)
-                .param("restaurantName", RESTAURANT_1.getName())
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(VOTE_10, VOTE_7, VOTE_2, VOTE_1));
-    }
-
-    @Test
     void getAllRestaurantRatingGroupByDate() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "ratingGroupByDate")
                 .param("restaurantName", RESTAURANT_1.getName())

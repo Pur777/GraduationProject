@@ -17,7 +17,7 @@ public class LunchMenu extends AbstractBaseEntity{
     @NotNull
     private LocalDate date;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "menu")
     @OrderBy("id")
     private List<Dish> dishes;
 

@@ -35,12 +35,6 @@ public class AdminVoteRestController {
         return voteService.getRestaurantRating(LocalDate.parse(date), restaurantName);
     }
 
-    @GetMapping
-    public List<Vote> getAllRestaurantRating(@RequestParam String restaurantName) {
-        log.info("getAllRestaurantRating for restaurant {}", restaurantName);
-        return voteService.getAllRestaurantRating(restaurantName);
-    }
-
     @GetMapping("/ratingGroupByDate")
     public List<VoteTo> getAllRestaurantRatingGroupByDate(@RequestParam String restaurantName) {
         log.info("getAllRestaurantRatingGroupByDate for restaurant {}", restaurantName);
